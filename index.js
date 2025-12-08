@@ -1,12 +1,20 @@
 import express from "express";
 import dotenv from "dotenv";
 import pkg from "pg";
+import cors from "cors";
 
 dotenv.config();
 const { Pool } = pkg;
 
 const app = express();
 app.use(express.json());
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
+
+app.options("*", cors());
 
 // Create a connection pool
 const pool = new Pool({
