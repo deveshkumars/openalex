@@ -10,11 +10,9 @@ const app = express();
 app.use(express.json());
 app.use(cors({
     origin: "*",
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
 }));
-
-app.options("*", cors());
 
 // Create a connection pool
 const pool = new Pool({
