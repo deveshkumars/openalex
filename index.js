@@ -31,6 +31,38 @@ app.get("/test", async (req, res) => {
   }
 });
 
+// SQL query handler - accepts SQL queries via POST
+app.post("/query", async (req, res) => {
+  try {
+    const { query, params } = req.body;
+
+    if (!query) {
+      return res.status(400).json({ error: "SQL query is required" });
+    }
+
+    // Execute the query
+    // If params are provided, use parameterized query for safety
+    const result = params && Array.isArray(params)
+      ? await pool.query(query, params)
+      : await pool.query(query);
+
+    res.json({
+      success: true,
+      rows: result.rows,
+      rowCount: result.rowCount,
+      command: result.command
+    });
+  } catch (err) {
+    console.error("SQL Query Error:", err);
+    res.status(500).json({
+      error: err.message,
+      code: err.code
+    });
+  }
+});
+
+
+
 
 
 // Render uses PORT from the environment
