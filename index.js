@@ -11,9 +11,7 @@ app.use(express.json());
 // Create a connection pool
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  ssl: false
 //   ssl: false // change to { rejectUnauthorized: false } if needed
 });
 
